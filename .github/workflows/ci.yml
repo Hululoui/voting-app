@@ -9,19 +9,15 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     name: Lint Python
-
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
-
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-
       - name: Installer flake8
         run: pip install flake8
-
       - name: Linter Python
         run: flake8 azure-vote/main.py --max-line-length=120
 
@@ -29,63 +25,14 @@ jobs:
     runs-on: ubuntu-latest
     name: Sécurité du code
     needs: lint
-
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
-
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-
       - name: Installer bandit
         run: pip install bandit
-
-      - name: Scan sécurité (bandit)
-        run: bandit -r azure-vote/main.pyname: CI
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  lint:
-    runs-on: ubuntu-latest
-    name: Lint Python
-
-    steps:
-      - name: Checkout du code
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-
-      - name: Installer flake8
-        run: pip install flake8
-
-      - name: Linter Python
-        run: flake8 azure-vote/main.py --max-line-length=120
-
-  security:
-    runs-on: ubuntu-latest
-    name: Sécurité du code
-    needs: lint
-
-    steps:
-      - name: Checkout du code
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-
-      - name: Installer bandit
-        run: pip install bandit
-
       - name: Scan sécurité (bandit)
         run: bandit -r azure-vote/main.py

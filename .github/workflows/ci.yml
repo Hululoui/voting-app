@@ -196,7 +196,7 @@ jobs:
         run: docker compose down
 
 
-   smoke-test:
+  smoke-test:
     runs-on: ubuntu-latest
     name: Smoke Test
     needs: load-test

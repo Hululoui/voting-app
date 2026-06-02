@@ -1,0 +1,6 @@
+---
+- name: Déploiement Voting App
+  hosts: all
+  become: false
+  roles:
+    - voting-app

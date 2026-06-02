@@ -155,7 +155,7 @@ jobs:
 
       - name: Attendre que le healthcheck passe
         run: |
-          sleep 30
+          sleep 60
           STATUS=$(docker inspect --format='{{.State.Health.Status}}' voting-app-azure-vote-front-1)
           echo "Healthcheck status: $STATUS"
           if [ "$STATUS" != "healthy" ]; then

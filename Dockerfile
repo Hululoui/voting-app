@@ -1,6 +1,7 @@
 FROM docker.io/python:3.13
 
-ADD /azure-vote /app
+
+COPY /azure-vote /app
 WORKDIR /app
 RUN pip install -r requirements.txt
 

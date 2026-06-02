@@ -37,6 +37,26 @@ jobs:
       - name: Scan sécurité (bandit)
         run: bandit -r azure-vote/main.py --severity-level high
 
+  safety:
+    runs-on: ubuntu-latest
+    name: Sécurité des dépendances
+    needs: lint
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Installer safety
+        run: pip install safety
+
+      - name: Scan des dépendances
+        run: safety check -r azure-vote/requirements.txt --ignore 70612
+
   build-and-push:
     runs-on: ubuntu-latest
     name: Build & Push

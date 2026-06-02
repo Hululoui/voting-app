@@ -35,4 +35,4 @@ jobs:
       - name: Installer bandit
         run: pip install bandit
       - name: Scan sécurité (bandit)
-        run: bandit -r azure-vote/main.py
+        run: bandit -r azure-vote/main.py -ll

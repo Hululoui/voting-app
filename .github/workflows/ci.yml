@@ -140,3 +140,28 @@ jobs:
 
       - name: Docker Push
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/voting-app:latest
+
+  healthcheck-test:
+    runs-on: ubuntu-latest
+    name: Test Healthcheck
+    needs: integration-test
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Lancer docker-compose
+        run: docker compose up -d
+
+      - name: Attendre que le healthcheck passe
+        run: |
+          sleep 30
+          STATUS=$(docker inspect --format='{{.State.Health.Status}}' voting-app-azure-vote-front-1)
+          echo "Healthcheck status: $STATUS"
+          if [ "$STATUS" != "healthy" ]; then
+            echo "Container not healthy!"
+            exit 1
+          fi
+
+      - name: Stopper docker-compose
+        run: docker compose down

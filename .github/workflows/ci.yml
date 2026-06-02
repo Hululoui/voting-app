@@ -57,6 +57,19 @@ jobs:
       - name: Scan des dépendances
         run: safety check -r azure-vote/requirements.txt --ignore 70612
 
+  hadolint:
+    runs-on: ubuntu-latest
+    name: Lint Dockerfile
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Hadolint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+
   build-and-push:
     runs-on: ubuntu-latest
     name: Build & Push

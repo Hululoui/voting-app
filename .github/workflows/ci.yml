@@ -87,6 +87,33 @@ jobs:
           severity: HIGH,CRITICAL
           exit-code: 0
 
+  integration-test:
+    runs-on: ubuntu-latest
+    name: Tests d'intégration
+    needs: build-and-push
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Lancer docker-compose
+        run: docker compose up -d
+
+      - name: Attendre que l'app démarre
+        run: sleep 10
+
+      - name: Test - vérifier que l'app répond
+        run: curl -f http://localhost:8080
+
+      - name: Test - simuler un vote Cats
+        run: curl -f -X POST http://localhost:8080 -d "vote=Cats"
+
+      - name: Test - simuler un vote Dogs
+        run: curl -f -X POST http://localhost:8080 -d "vote=Dogs"
+
+      - name: Stopper docker-compose
+        run: docker compose down
+
   build-and-push:
     runs-on: ubuntu-latest
     name: Build & Push

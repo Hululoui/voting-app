@@ -194,3 +194,28 @@ jobs:
 
       - name: Stopper docker-compose
         run: docker compose down
+
+
+   smoke-test:
+    runs-on: ubuntu-latest
+    name: Smoke Test
+    needs: load-test
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Lancer docker-compose
+        run: docker compose up -d
+
+      - name: Attendre que l'app démarre
+        run: sleep 15
+
+      - name: Rendre le script exécutable
+        run: chmod +x tests/smoke-test.sh
+
+      - name: Lancer le smoke test
+        run: ./tests/smoke-test.sh
+
+      - name: Stopper docker-compose
+        run: docker compose down

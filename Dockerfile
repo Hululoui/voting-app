@@ -4,5 +4,5 @@ WORKDIR /app
 RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 CMD ["python", "main.py"]
-HEALTHCHECK --interval=5m --timeout=3s \
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
   CMD curl -f http://localhost/ || exit 1
